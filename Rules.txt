@@ -1,0 +1,71 @@
+Rules:
+
+playboard 4*4;
+at the beginning: have 2 tiles;
+get a new tile after every move;
+the game is over when the player can't make any moves;
+Game will not be over when get 2048 tile, players can keep making moves and accumulating scores.
+Only get points when combine two tiles, and the point you get is the new tile score (the move of combining 2 4's to get 8, get 8 points.)
+You don't get points when tile appears, only get points from combining them.
+new tiles: 90% get 2, 10% get 4.
+A tile cannot be merged twice in a single move
+
+RoadMap:
+Frontend:
+    Display a board, tiles, and scores.
+
+BackEnd:
+    Elements
+        1. Board: Tile [][]
+            IDEA(1): List<List<Tile>> represent rows of columns on board;
+            createBorad with genenrate new tile on board,
+            displayBoard,
+            gameStatusCheck,
+            genenrate new tile on board
+
+        2 Tile: a class to store location, value, a merge marker
+            Boolean canmove;
+            Boolean ifChanged;
+            score
+        createTile, 
+        MoveUp/Down?....
+
+Logic:
+        1.take input from keyboard
+        3. If input =>, then fix a row i, search from right most column to left
+            a. Usig Stacking of Tiles, addScores=0
+            b. scan over the row:
+             stacking = tile[]
+                if row[i]==0, continue,
+                else if row[i]!=0:
+                    // stack empty
+                    If stack[-1] = 0: stack.append(row[i]);
+                    //stack not empty
+                    else if stack[-1]!=0: 
+                        if stack[-1] == row[i]:
+                            if stack[-1].ifcahnged = False:
+                            //if not merged, then merge
+                                Tile temp.score = row[i].scpre*2;
+                                temp.ifcahnged = True
+                                stack.append(temp)
+                                addScores+=temp.score
+                            else:
+                            //if already merged, then simply add
+                                stack.append(row[i])
+
+        4.gameScoreUdpate: add by whenever two tiles combine, by the value of the new tile.
+        5.gameStatusCheck: The game is won when a tile with a value of 2048 appears on the board. Players can continue beyond that to reach higher scores.
+
+        4. Every turn, generate a new tile with random location and value
+            a. 90% of 2 and 10% of 4
+            b. random location i,j. check board[1][j] ==null? Place the tile, re-generate a location until the empty.
+            c. when the game starts at very beginning, with 2 of 2's at random locations.
+
+
+how to solve 
+_____________
+|__|4_|__|4_|
+|2_|8_|32|__| <= how to solve this moving to the right? 
+|2_|2_|__|__|
+|2_|2_|2_|2_|
+
